@@ -1,11 +1,25 @@
 import { useRoutes } from "raviger";
-import Home from "../Home";
+import Intro from "../Intro";
+import Login from "../User/Login";
+import Signup from "../User/Signup";
+import AppContainer from "../AppContainer";
+import Home from "../components/Home";
+import Transactions from "../components/Transactions";
+import History from "../components/History";
+import Charts from "../components/Charts";
 
 const routes = {
-  "/": () => <Home />,
+  "/": () => <Intro />,
+  "/login": () => <Login />,
+  "/signup": () => <Signup />,
+  // "/dashboard": () => <Dashboard user={"Pranshu"} />,
+  "/home": () => <Home />,
+  "/transactions": () => <Transactions />,
+  "/history": () => <History />,
+  "/chart": () => <Charts />,
 };
 
-export default function App() {
+export default function AppRouter(props: { user: any }) {
   let route = useRoutes(routes);
-  return <div>{route}</div>;
+  return <AppContainer>{route}</AppContainer>;
 }
