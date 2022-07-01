@@ -5,9 +5,9 @@ type tabList = { name: string; url: string };
 
 export default function Dashboard(props: { user: any; currentTab: string }) {
   const currentTabClass: string =
-    "rounded-lg bg-blue-700 hover:bg-blue-900 py-2 p-2 text-gray-100 text-white";
+    "rounded-lg bg-blue-800 hover:bg-blue-900 py-2 p-2 text-white";
   const tabClass: string =
-    "rounded-lg hover:bg-blue-900 py-2 p-2 text-gray-100 hover:text-white";
+    "rounded-lg hover:bg-blue-900 py-2 p-2 text-gray-300 hover:text-white";
 
   const allTabs: tabList[] = [
     { name: "Home", url: "/home" },
@@ -17,7 +17,7 @@ export default function Dashboard(props: { user: any; currentTab: string }) {
   ];
 
   return (
-    <div className="relative flex flex-col h-screen p-6 bg-gradient-to-r from-blue-500 via-blue-400 to-blue-400 text-white space-y-12 font-bold">
+    <div className="relative flex flex-col h-screen p-6 bg-blue-700 text-white space-y-12 font-bold">
       <div className="inset-x-0 top-0">
         <Link href="/" className="text-3xl text-white">
           Money Manager
