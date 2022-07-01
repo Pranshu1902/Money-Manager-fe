@@ -135,7 +135,10 @@ export default function Home() {
                   ariaLabel="loading-indicator"
                 />
               ) : (
-                <p className={netClass}>{net}</p>
+                <p className={netClass}>
+                  {net >= 0 ? "+" : ""}
+                  {net}
+                </p>
               )}
             </div>
           </div>
