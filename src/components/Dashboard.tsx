@@ -24,13 +24,13 @@ export default function Dashboard(props: { user: any; currentTab: string }) {
         </Link>
       </div>
       <div className="flex flex-col gap-2 text-xl w-full">
-        {allTabs.map((Tab: tabList) =>
+        {allTabs.map((Tab: tabList, index) =>
           Tab.name === props.currentTab ? (
-            <Link href={Tab.url} className={currentTabClass}>
+            <Link key={index} href={Tab.url} className={currentTabClass}>
               {Tab.name}
             </Link>
           ) : (
-            <Link href={Tab.url} className={tabClass}>
+            <Link key={index} href={Tab.url} className={tabClass}>
               {Tab.name}
             </Link>
           )

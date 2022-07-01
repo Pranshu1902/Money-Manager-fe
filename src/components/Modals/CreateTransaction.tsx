@@ -1,16 +1,20 @@
 import { useState } from "react";
 import { postTransaction } from "../../api/ApiUtils";
+import { TailSpin } from "react-loader-spinner";
 
 export default function CreateTransaction(props: { closeCB: () => void }) {
   const [amount, setAmount] = useState(0);
   const [spent, setSpent] = useState(true);
   const [description, setDescription] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (event: any) => {
+    setLoading(true);
     event.preventDefault();
-    let ouput = await postTransaction(amount, description, spent);
-    console.log(ouput);
+    await postTransaction(amount, description, spent);
     props.closeCB();
+    setLoading(false);
   };
 
   return (
@@ -25,7 +29,7 @@ export default function CreateTransaction(props: { closeCB: () => void }) {
             value={amount}
             type="number"
             onChange={(e) => setAmount(Number(e.target.value))}
-            className="py-2 border-2 border-green-300 rounded-lg"
+            className="py-2 p-2 border-2 border-green-300 rounded-lg"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -34,7 +38,7 @@ export default function CreateTransaction(props: { closeCB: () => void }) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             type="text"
-            className="py-2 border-2 border-green-300 rounded-lg"
+            className="py-2 p-2 border-2 border-green-300 rounded-lg"
           />
         </div>
         <div className="flex flex-row gap-2">
@@ -46,9 +50,20 @@ export default function CreateTransaction(props: { closeCB: () => void }) {
             className="py-2 border-2 border-green-300 rounded-lg"
           />
         </div>
-        <button className="bg-green-500 hover:bg-green-700 py-2 text-white font-bold px-16 rounded-md">
-          Make Transaction
-        </button>
+        {loading ? (
+          <div className="flex justify-center items-center">
+            <TailSpin
+              color="lightgreen"
+              height={50}
+              width={50}
+              ariaLabel="loading-indicator"
+            />
+          </div>
+        ) : (
+          <button className="bg-green-500 hover:bg-green-700 py-2 text-white font-bold px-16 rounded-md">
+            Make Transaction
+          </button>
+        )}
       </form>
     </div>
   );

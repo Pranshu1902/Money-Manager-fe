@@ -70,8 +70,9 @@ export default function Intro() {
               Uses
               <a
                 className="text-blue-500 hover:text-blue-700 hover:underline"
-                href="/api/swagger/"
+                href="http://money-manager-pranshu1902.herokuapp.com/api/swagger/"
                 target="_blank"
+                rel="noreferrer"
               >
                 API
               </a>
