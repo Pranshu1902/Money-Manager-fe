@@ -89,7 +89,7 @@ export default function Home() {
         >
           <div className="gap-24 items-center justify-center">
             <div className="float-left bg-white rounded-lg w-1/4 p-6 shadow-lg mb-6">
-              <p className="text-gray-500">Total Transactions</p>
+              <p className="text-gray-500 font-semibold">Total Transactions</p>
               {loadingNet ? (
                 <TailSpin
                   color="purple"
@@ -103,11 +103,10 @@ export default function Home() {
             </div>
             <div className="float-right flex items-center justify-center h-2/3 w-1/5">
               <button
-                className="bg-purple-500 hover:bg-purple-700 w-full h-full rounded-lg font-bold text-white"
+                className="p-4 bg-purple-500 hover:bg-purple-700 w-full h-full rounded-lg font-bold text-white"
                 onClick={() => setNewTransaction(true)}
               >
-                <span className="glyphicon glyphicon-plus"></span>&nbsp;Add new
-                transaction
+                <span className="fa fa-plus"></span>&nbsp;Add new transaction
               </button>
             </div>
           </div>
@@ -181,32 +180,40 @@ export default function Home() {
                   transaction.spent ? (
                     <div
                       key={index}
-                      className="flex flex-row gap-4 bg-white rounded-lg p-2 w-full shadow-lg"
+                      className="flex flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
                     >
-                      <p className="text-2xl text-gray-500">{index + 1}.</p>
-                      <p className="text-semibold text-2xl text-red-500">
-                        <b>- {transaction.amount}</b>
-                        <br />
-                        {transaction.description}
-                      </p>
-                      <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
-                        {Moment(transaction.time).format("hh:mm, d MMM YY")}
-                      </p>
+                      <div className="flex flex-row gap-2 w-1/2 items-center">
+                        <p className="text-2xl text-gray-500">{index + 1}.</p>
+                        <p className="text-semibold text-2xl text-red-500">
+                          <b>- {transaction.amount}</b>
+                          <br />
+                          &nbsp;{transaction.description}
+                        </p>
+                      </div>
+                      <div className="w-full flex items-center">
+                        <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
+                          {Moment(transaction.time).format("hh:mm, d MMM YY")}
+                        </p>
+                      </div>
                     </div>
                   ) : (
                     <div
                       key={index}
-                      className="flex flex-row gap-4 bg-white rounded-lg p-2 w-full shadow-lg"
+                      className="flex flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
                     >
-                      <p className="text-2xl text-gray-500">{index + 1}.</p>
-                      <p className="text-semibold text-2xl text-green-500">
-                        <b>+ {transaction.amount}</b>
-                        <br />
-                        {transaction.description}
-                      </p>
-                      <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
-                        {Moment(transaction.time).format("hh:mm, d MMM YY")}
-                      </p>
+                      <div className="flex flex-row gap-2 w-1/2">
+                        <p className="text-2xl text-gray-500">{index + 1}.</p>
+                        <p className="text-semibold text-2xl text-green-500">
+                          <b>+ {transaction.amount}</b>
+                          <br />
+                          &nbsp;{transaction.description}
+                        </p>
+                      </div>
+                      <div className="w-full flex items-center">
+                        <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
+                          {Moment(transaction.time).format("hh:mm, d MMM YY")}
+                        </p>
+                      </div>
                     </div>
                   )
                 )
@@ -215,7 +222,7 @@ export default function Home() {
                   No Transactions Found
                 </div>
               ) : (
-                <div></div>
+                <></>
               )}
             </div>
           </div>
