@@ -13,6 +13,7 @@ export default function Home() {
   const [gained, setGained] = useState(0);
   const [net, setNet] = useState(0);
   const [count, setCount] = useState(0);
+  const [showDashboard, setShowDashboard] = useState(false);
 
   Moment.locale("en");
 
@@ -79,16 +80,39 @@ export default function Home() {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
       />
-      <div className="flex md:flex-row flex-col">
-        <div className="w-1/5 md:h-1/2 h-full fixed">
-          <Dashboard user={user} currentTab={"Home"} />
+      <div className="flex flex-col">
+        {/* For Mobile View */}
+        <div className="w-full md:h-1/2 h-full block md:hidden bg-gray-200">
+          {showDashboard ? (
+            <Dashboard
+              user={user}
+              currentTab={"Home"}
+              closeCB={() => setShowDashboard(false)}
+              showCross={true}
+            />
+          ) : (
+            <div className="pl-6 pt-6">
+              <button onClick={() => setShowDashboard(true)}>
+                <i className="fa fa-navicon"></i>
+              </button>
+            </div>
+          )}
+        </div>
+        {/* For Desktop View */}
+        <div className="hidden lg:block w-1/5 md:h-1/2 h-full fixed">
+          <Dashboard
+            user={user}
+            currentTab={"Home"}
+            closeCB={() => setShowDashboard(false)}
+            showCross={false}
+          />
         </div>
         <div
           style={{ paddingLeft: "26%" }}
           className="p-6 w-screen flex flex-col gap-4 bg-gray-200 h-full"
         >
           <div className="gap-24 items-center justify-center">
-            <div className="float-left bg-white rounded-lg w-1/4 p-6 shadow-lg mb-6">
+            <div className="lg:float-left bg-white rounded-lg w-full lg:w-1/4 p-6 shadow-lg mb-6">
               <p className="text-gray-500 font-semibold">Total Transactions</p>
               {loadingNet ? (
                 <TailSpin
@@ -101,9 +125,9 @@ export default function Home() {
                 <p className="text-blue-500 font-bold text-5xl">{count}</p>
               )}
             </div>
-            <div className="float-right flex items-center justify-center h-2/3 w-1/5">
+            <div className="lg:float-right flex items-center justify-center h-2/3 w-full lg:w-1/5">
               <button
-                className="p-4 bg-purple-500 hover:bg-purple-700 w-full h-full rounded-lg font-bold text-white"
+                className="p-2 lg:p-4 bg-purple-500 hover:bg-purple-700 w-2/3 lg:w-full h-full rounded-lg font-bold text-white"
                 onClick={() => setNewTransaction(true)}
               >
                 <span className="fa fa-plus"></span>&nbsp;Add new transaction
@@ -111,8 +135,8 @@ export default function Home() {
             </div>
           </div>
           <div>
-            <div className="flex flex-row gap-12 w-full">
-              <div className="w-1/4 flex flex-col bg-purple-200 p-6 rounded-lg shadow-lg">
+            <div className="flex flex-col lg:flex-row gap-12 w-full">
+              <div className="w-full lg:w-1/4 flex flex-col bg-purple-200 p-6 rounded-lg shadow-lg">
                 <p className="text-gray-500 font-semibold">Total Spent:</p>
                 {loadingNet ? (
                   <TailSpin
@@ -127,7 +151,7 @@ export default function Home() {
                   </p>
                 )}
               </div>
-              <div className="w-1/4 flex flex-col bg-purple-200 p-6 rounded-lg shadow-lg">
+              <div className="w-full lg:w-1/4 flex flex-col bg-purple-200 p-6 rounded-lg shadow-lg">
                 <p className="text-gray-500 font-semibold">Total Gained:</p>
                 {loadingNet ? (
                   <TailSpin
@@ -142,7 +166,7 @@ export default function Home() {
                   </p>
                 )}
               </div>
-              <div className="w-1/4 flex flex-col bg-purple-200 p-6 rounded-lg shadow-lg">
+              <div className="w-full lg:w-1/4 flex flex-col bg-purple-200 p-6 rounded-lg shadow-lg">
                 <p className="text-gray-500 font-semibold truncate">Net:</p>
                 {loadingNet ? (
                   <TailSpin
@@ -174,23 +198,23 @@ export default function Home() {
                 />
               </div>
             )}
-            <div className="flex flex-col gap-4 pl-12 pr-12 pt-6 h-full">
+            <div className="flex flex-col gap-4 lg:pl-12 lg:pr-12 pt-6 h-full">
               {transactions.length ? (
                 transactions.map((transaction: any, index: number) =>
                   transaction.spent ? (
                     <div
                       key={index}
-                      className="flex flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
+                      className="flex flex-col lg:flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
                     >
-                      <div className="flex flex-row gap-2 w-1/2 items-center">
+                      <div className="flex flex-row gap-2 w-full lg:w-1/2 items-center">
                         <p className="text-2xl text-gray-500">{index + 1}.</p>
-                        <p className="text-semibold text-2xl text-red-500">
+                        <p className="text-semibold text-2xl text-red-500 justify-center lg:justify-start">
                           <b>- {transaction.amount}</b>
                           <br />
                           &nbsp;{transaction.description}
                         </p>
                       </div>
-                      <div className="w-full flex items-center">
+                      <div className="w-full flex items-center justify-center lg:justify-start">
                         <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
                           {Moment(transaction.time).format("hh:mm, d MMM YY")}
                         </p>
@@ -199,9 +223,9 @@ export default function Home() {
                   ) : (
                     <div
                       key={index}
-                      className="flex flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
+                      className="flex flex-col lg:flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
                     >
-                      <div className="flex flex-row gap-2 w-1/2">
+                      <div className="flex flex-row gap-2 lg:w-1/2">
                         <p className="text-2xl text-gray-500">{index + 1}.</p>
                         <p className="text-semibold text-2xl text-green-500">
                           <b>+ {transaction.amount}</b>
@@ -209,7 +233,7 @@ export default function Home() {
                           &nbsp;{transaction.description}
                         </p>
                       </div>
-                      <div className="w-full flex items-center">
+                      <div className="w-full flex items-center justify-center lg:justify-start">
                         <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
                           {Moment(transaction.time).format("hh:mm, d MMM YY")}
                         </p>

@@ -9,6 +9,7 @@ export default function History() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState([]);
+  const [showDashboard, setShowDashboard] = useState(false);
 
   useEffect(() => {
     me().then((currentUser) => {
@@ -22,18 +23,40 @@ export default function History() {
   }, []);
 
   return (
-    <div className="flex flex-row">
-      <div className="w-1/5 fixed">
-        <Dashboard user={user} currentTab={"History"} />
+    <div className="flex flex-col">
+      {/* For Mobile View */}
+      <div className="block md:hidden bg-gray-200">
+        {showDashboard ? (
+          <Dashboard
+            user={user}
+            currentTab={"History"}
+            closeCB={() => setShowDashboard(false)}
+            showCross={true}
+          />
+        ) : (
+          <div className="pl-6 pt-6">
+            <button onClick={() => setShowDashboard(true)}>
+              <i className="fa fa-navicon"></i>
+            </button>
+          </div>
+        )}
       </div>
-      <div
-        style={{ paddingLeft: "26%" }}
-        className="p-6 bg-gray-100 w-full h-full"
-      >
+      {/* For Desktop View */}
+      <div className="hidden lg:block w-1/5 md:h-1/2 h-full fixed">
+        <Dashboard
+          user={user}
+          currentTab={"History"}
+          closeCB={() => setShowDashboard(false)}
+          showCross={false}
+        />
+      </div>
+      <div style={{ paddingLeft: "26%" }} className="p-6 bg-gray-200 h-full">
         <div>
-          <p className="text-5xl font-bold text-purple-500">History</p>
+          <p className="text-4xl lg:text-5xl font-bold text-purple-500">
+            History
+          </p>
         </div>
-        <div className="p-12 flex flex-col gap-4 w-full h-full">
+        <div className="p-2 lg:p-12 flex flex-col gap-4 w-full h-full">
           {isLoading && (
             <div className="flex justify-center">
               <TailSpin
@@ -49,17 +72,17 @@ export default function History() {
               transaction.spent ? (
                 <div
                   key={index}
-                  className="flex flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
+                  className="flex flex-col lg:flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
                 >
-                  <div className="flex flex-row gap-2 w-1/2 items-center">
+                  <div className="flex flex-row gap-2 w-full lg:w-1/2 items-center">
                     <p className="text-2xl text-gray-500">{index + 1}.</p>
-                    <p className="text-semibold text-2xl text-red-500">
+                    <p className="text-semibold text-2xl text-red-500 justify-center lg:justify-start">
                       <b>- {transaction.amount}</b>
                       <br />
                       &nbsp;{transaction.description}
                     </p>
                   </div>
-                  <div className="w-full flex items-center">
+                  <div className="w-full flex items-center justify-center lg:justify-start">
                     <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
                       {Moment(transaction.time).format("hh:mm, d MMM YY")}
                     </p>
@@ -68,9 +91,9 @@ export default function History() {
               ) : (
                 <div
                   key={index}
-                  className="flex flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
+                  className="flex flex-col lg:flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
                 >
-                  <div className="flex flex-row gap-2 w-1/2">
+                  <div className="flex flex-row gap-2 lg:w-1/2">
                     <p className="text-2xl text-gray-500">{index + 1}.</p>
                     <p className="text-semibold text-2xl text-green-500">
                       <b>+ {transaction.amount}</b>
@@ -78,7 +101,7 @@ export default function History() {
                       &nbsp;{transaction.description}
                     </p>
                   </div>
-                  <div className="w-full flex items-center">
+                  <div className="w-full flex items-center justify-center lg:justify-start">
                     <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
                       {Moment(transaction.time).format("hh:mm, d MMM YY")}
                     </p>
