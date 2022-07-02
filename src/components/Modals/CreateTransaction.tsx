@@ -41,14 +41,25 @@ export default function CreateTransaction(props: { closeCB: () => void }) {
             className="py-2 p-2 border-2 border-green-300 rounded-lg"
           />
         </div>
-        <div className="flex flex-row gap-2">
-          <p className="text-gray-500 font-semibold text-xl">Spent:</p>
-          <input
-            checked={spent}
-            onChange={(e) => setSpent(Boolean(e.target.value))}
-            type="checkbox"
-            className="py-2 border-2 border-green-300 rounded-lg"
-          />
+        <div className="flex flex-row gap-6">
+          <div className="flex flex-row gap-2">
+            <p className="text-gray-500 font-semibold text-xl">Spent:</p>
+            <input
+              checked={spent}
+              onClick={() => setSpent(!spent)}
+              type="checkbox"
+              className="py-2 border-2 border-green-300 rounded-lg"
+            />
+          </div>
+          <div className="flex flex-row gap-2">
+            <p className="text-gray-500 font-semibold text-xl">Received:</p>
+            <input
+              checked={!spent}
+              onClick={() => setSpent(!spent)}
+              type="checkbox"
+              className="py-2 border-2 border-green-300 rounded-lg"
+            />
+          </div>
         </div>
         {loading ? (
           <div className="flex justify-center items-center">

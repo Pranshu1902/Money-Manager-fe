@@ -72,7 +72,7 @@ export const signup = async (
 };
 
 export const me = async () => {
-  return request("GET", {}, "user/");
+  return request("GET", {}, "api/user");
 };
 
 export const logout = async () => {

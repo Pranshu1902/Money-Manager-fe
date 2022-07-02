@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
-import { getTransactions } from "../api/ApiUtils";
+import { getTransactions, me } from "../api/ApiUtils";
 import Dashboard from "./Dashboard";
 import Moment from "moment";
 
@@ -16,15 +16,20 @@ export default function Transactions() {
       setIsLoading(false);
     });
 
-    setUser("User");
+    me().then((currentUser) => {
+      setUser(currentUser.username);
+    });
   }, []);
 
   return (
-    <div className="flex flex-row h-full">
-      <div className="w-1/4">
+    <div className="flex flex-row">
+      <div className="w-1/5 fixed">
         <Dashboard user={user} currentTab={"Transactions"} />
       </div>
-      <div className="p-6 bg-gray-100 w-full">
+      <div
+        style={{ paddingLeft: "26%" }}
+        className="p-6 bg-gray-100 w-full h-full"
+      >
         <div>
           <p className="text-5xl font-bold text-purple-500">Transactions</p>
         </div>

@@ -7,16 +7,17 @@ import Home from "../components/Home";
 import Transactions from "../components/Transactions";
 import History from "../components/History";
 import Charts from "../components/Charts";
+import Profile from "../components/Profile";
 
 const routes = {
   "/": () => <Intro />,
   "/login": () => <Login />,
   "/signup": () => <Signup />,
-  // "/dashboard": () => <Dashboard user={"Pranshu"} />,
   "/home": () => <Home />,
   "/transactions": () => <Transactions />,
   "/history": () => <History />,
   "/chart": () => <Charts />,
+  "/profile": () => <Profile />,
 };
 
 export default function AppRouter(props: { user: any }) {
