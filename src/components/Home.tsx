@@ -242,7 +242,7 @@ export default function Home() {
                   )
                 )
               ) : isLoading === false ? (
-                <div className="h-2/3 bg-white rounded-lg w-full shadow text-gray-500 text-xl font-semibold flex justify-center items-center">
+                <div className="h-2/3 p-4 bg-white rounded-lg w-full shadow text-gray-500 text-xl font-semibold flex justify-center items-center">
                   No Transactions Found
                 </div>
               ) : (

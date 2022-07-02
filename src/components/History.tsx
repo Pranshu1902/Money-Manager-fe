@@ -110,7 +110,7 @@ export default function History() {
               )
             )
           ) : isLoading === false ? (
-            <div className="h-1/6 bg-white rounded-lg w-full shadow text-gray-500 text-3xl font-semibold flex justify-center items-center">
+            <div className="h-1/6 p-4 bg-white rounded-lg w-full shadow text-gray-500 text-3xl font-semibold flex justify-center items-center">
               No History Found
             </div>
           ) : (
