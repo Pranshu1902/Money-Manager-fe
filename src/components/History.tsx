@@ -20,6 +20,8 @@ export default function History() {
       setTransactions(data.reverse());
       setIsLoading(false);
     });
+
+    document.title = "History | Money Manager";
   }, []);
 
   return (

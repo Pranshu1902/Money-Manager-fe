@@ -20,6 +20,8 @@ export default function Transactions() {
     me().then((currentUser) => {
       setUser(currentUser.username);
     });
+
+    document.title = "Transactions | Money Manager";
   }, []);
 
   return (

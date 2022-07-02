@@ -28,6 +28,8 @@ export default function Profile() {
       setUser(currentUser.username);
       setProfile(currentUser);
     });
+
+    document.title = "Profile | Money Manager";
   }, []);
 
   // const updatePassword = (password: string) => {};

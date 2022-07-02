@@ -11,6 +11,8 @@ export default function Charts() {
     me().then((currentUser) => {
       setUser(currentUser.username);
     });
+
+    document.title = "Chart | Money Manager";
   }, []);
 
   return (
