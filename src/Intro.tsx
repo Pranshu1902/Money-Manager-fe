@@ -55,18 +55,18 @@ export default function Intro() {
 
         {/* Images */}
         <div className="p-16 gap-y-6 flex flex-col">
-          <div className="flex items-center justify-center gap-2 w-full">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-2 w-full">
             <img
-              className="w-1/2 h-1/2 rounded-lg shadow-lg"
+              className="w-full h-full lg:w-1/2 lg:h-1/2 rounded-lg shadow-lg"
               src={homeLogo}
               alt="Money Manager"
             />
-            <p className="w-1/2 font-bold text-xl">
+            <p className="w-full lg:w-1/2 font-bold text-xl">
               Helps manage all your transactions efficiently
             </p>
           </div>
-          <div className="flex items-center justify-center gap-2 w-full">
-            <p className="w-1/2 font-bold text-xl">
+          <div className="flex flex-col-reverse lg:flex-row items-center justify-center gap-2 w-full">
+            <p className="w-full lg:w-1/2 font-bold text-xl">
               Uses&nbsp;
               <a
                 className="text-blue-500 hover:text-blue-700 hover:underline"
@@ -79,7 +79,7 @@ export default function Intro() {
               , build using DRF-Spectacular for efficient handling of data
             </p>
             <img
-              className="w-1/2 h-1/2 rounded-lg shadow-lg"
+              className="w-full h-full lg:w-1/2 lg:h-1/2 rounded-lg shadow-lg"
               src={apiLogo}
               alt="Money Manager"
             />
