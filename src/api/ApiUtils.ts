@@ -94,3 +94,8 @@ export const postTransaction = async (
   const data = { amount: amount, description: description, spent: spent };
   return request("POST", data, "transactions/");
 };
+
+export const updateUser = async (username: string, password: string) => {
+  const data = { username: username, password: password };
+  return request("PUT", data, "user/");
+};

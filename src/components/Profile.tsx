@@ -146,7 +146,10 @@ export default function Profile() {
             </div>
           </div>
           <Popup open={updatePassword} onClose={() => setUpdatePassword(false)}>
-            <UpdatePassword closeCB={() => setUpdatePassword(false)} />
+            <UpdatePassword
+              username={user}
+              closeCB={() => setUpdatePassword(false)}
+            />
           </Popup>
         </div>
       </div>

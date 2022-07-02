@@ -1,15 +1,27 @@
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
+import { updateUser } from "../../api/ApiUtils";
 
-export default function UpdatePassword(props: { closeCB: () => void }) {
+export default function UpdatePassword(props: {
+  username: string;
+  closeCB: () => void;
+}) {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    setLoading(true);
-    // call the api
-    props.closeCB();
-    setLoading(false);
+    if (password === confirmPassword) {
+      setLoading(true);
+      // call the api
+      // updateUser(props.username, password);
+      props.closeCB();
+      setLoading(false);
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -20,14 +32,23 @@ export default function UpdatePassword(props: { closeCB: () => void }) {
       <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-2 w-full">
         <p className="text-gray-500 font-semibold">New Password:</p>
         <input
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
           className="py-2 rounded-lg p-2 border-2 border-blue-500 font-bold shadow-lg"
-          type="text"
+          type="password"
         />
         <p className="text-gray-500 font-semibold">Confirm New Password:</p>
         <input
+          value={confirmPassword}
+          onChange={(event) => setConfirmPassword(event.target.value)}
           className="py-2 rounded-lg p-2 border-2 border-blue-500 font-bold shadow-lg"
-          type="text"
+          type="password"
         />
+        {error && (
+          <div className="flex items-center justify-center">
+            <p className="text-red-500 font-semibold">Passwords dont match</p>
+          </div>
+        )}
         <div className="w-full flex flex-row gap-4 justify-center items-center pt-4">
           {loading ? (
             <div className="flex justify-center items-center w-full">
