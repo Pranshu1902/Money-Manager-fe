@@ -67,7 +67,7 @@ export default function Intro() {
           </div>
           <div className="flex items-center justify-center gap-2 w-full">
             <p className="w-1/2 font-bold text-xl">
-              Uses
+              Uses&nbsp;
               <a
                 className="text-blue-500 hover:text-blue-700 hover:underline"
                 href="http://money-manager-pranshu1902.herokuapp.com/api/swagger/"
