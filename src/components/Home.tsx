@@ -80,7 +80,7 @@ export default function Home() {
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
       />
       <div className="flex md:flex-row flex-col">
-        <div className="md:w-1/5 w-full md:h-1/2 h-full fixed">
+        <div className="w-1/5 md:h-1/2 h-full fixed">
           <Dashboard user={user} currentTab={"Home"} />
         </div>
         <div

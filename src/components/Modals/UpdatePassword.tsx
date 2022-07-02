@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
-import { updateUser } from "../../api/ApiUtils";
+// import { updateUser } from "../../api/ApiUtils";
 
 export default function UpdatePassword(props: {
   username: string;
