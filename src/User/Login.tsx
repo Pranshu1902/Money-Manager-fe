@@ -12,6 +12,10 @@ export default function Login() {
   const [invalidLogin, setInvalidLogin] = useState(false);
 
   useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/home");
+    }
+
     document.title = "Login | Money Manager";
   }, []);
 
