@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getTransactions, me } from "../api/ApiUtils";
 import Dashboard from "./Dashboard";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -28,55 +28,60 @@ export default function Home() {
   const [netClass, setNetClass] = useState("");
 
   // filter data based on the duration selected
-  const getFilteredData = (data: transactionType[]) => {
-    if (filter === "All") {
-      return data;
-    } else if (filter === "Today") {
-      return data.filter((transaction: transactionType) => {
-        const transactionDate = new Date(transaction.time);
-        return (
-          transactionDate.getDate() >= currentDate.getDate() - 1 &&
-          transactionDate.getMonth() === currentDate.getMonth() &&
-          transactionDate.getFullYear() === currentDate.getFullYear()
-        );
-      });
-    } else if (filter === "Last Week") {
-      return data.filter((transaction: transactionType) => {
-        const transactionDate = new Date(transaction.time);
-        return (
-          transactionDate.getDate() >= currentDate.getDate() - 7 &&
-          transactionDate.getMonth() === currentDate.getMonth() &&
-          transactionDate.getFullYear() === currentDate.getFullYear()
-        );
-      });
-    } else if (filter === "Last Month") {
-      return data.filter((transaction: transactionType) => {
-        const transactionDate = new Date(transaction.time);
-        return (
-          transactionDate.getMonth() >= currentDate.getMonth() - 1 &&
-          transactionDate.getFullYear() === currentDate.getFullYear()
-        );
-      });
-    } else if (filter === "Last 6 Months") {
-      return data.filter((transaction: transactionType) => {
-        const transactionDate = new Date(transaction.time);
-        return (
-          transactionDate.getMonth() >= currentDate.getMonth() - 6 &&
-          transactionDate.getFullYear() === currentDate.getFullYear()
-        );
-      });
-    } else if (filter === "Last Year") {
-      return data.filter((transaction: transactionType) => {
-        const transactionDate = new Date(transaction.time);
-        return transactionDate.getFullYear() >= currentDate.getFullYear() - 1;
-      });
-    } else {
-      return data;
-    }
-  };
+  const getFilteredData = useCallback(
+    (data: transactionType[]) => {
+      const currentDate = new Date();
+
+      if (filter === "All") {
+        return data;
+      } else if (filter === "Today") {
+        return data.filter((transaction: transactionType) => {
+          const transactionDate = new Date(transaction.time);
+          return (
+            transactionDate.getDate() >= currentDate.getDate() - 1 &&
+            transactionDate.getMonth() === currentDate.getMonth() &&
+            transactionDate.getFullYear() === currentDate.getFullYear()
+          );
+        });
+      } else if (filter === "Last Week") {
+        return data.filter((transaction: transactionType) => {
+          const transactionDate = new Date(transaction.time);
+          return (
+            transactionDate.getDate() >= currentDate.getDate() - 7 &&
+            transactionDate.getMonth() === currentDate.getMonth() &&
+            transactionDate.getFullYear() === currentDate.getFullYear()
+          );
+        });
+      } else if (filter === "Last Month") {
+        return data.filter((transaction: transactionType) => {
+          const transactionDate = new Date(transaction.time);
+          return (
+            transactionDate.getMonth() >= currentDate.getMonth() - 1 &&
+            transactionDate.getFullYear() === currentDate.getFullYear()
+          );
+        });
+      } else if (filter === "Last 6 Months") {
+        return data.filter((transaction: transactionType) => {
+          const transactionDate = new Date(transaction.time);
+          return (
+            transactionDate.getMonth() >= currentDate.getMonth() - 6 &&
+            transactionDate.getFullYear() === currentDate.getFullYear()
+          );
+        });
+      } else if (filter === "Last Year") {
+        return data.filter((transaction: transactionType) => {
+          const transactionDate = new Date(transaction.time);
+          return transactionDate.getFullYear() >= currentDate.getFullYear() - 1;
+        });
+      } else {
+        return data;
+      }
+    },
+    [filter]
+  );
 
   // fetch data from API
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     getTransactions().then((data) => {
       data = getFilteredData(data);
 
@@ -105,7 +110,7 @@ export default function Home() {
 
       setLoadingNet(false);
     });
-  };
+  }, [getFilteredData]);
 
   useEffect(() => {
     me().then((currentUser) => {
@@ -115,14 +120,12 @@ export default function Home() {
     fetchData();
 
     document.title = "Home | Money Manager";
-  }, [setSpent, setGained, setNet, setCount]);
+  }, [setSpent, setGained, setNet, setCount, fetchData]);
 
   const closeModalCB = () => {
     setNewTransaction(false);
     fetchData();
   };
-
-  const currentDate = new Date();
 
   return (
     <html>
