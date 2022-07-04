@@ -12,3 +12,8 @@ export type user = {
   last_name: string;
   email: string;
 };
+
+export type filterType = {
+  title: string;
+  active: boolean;
+};

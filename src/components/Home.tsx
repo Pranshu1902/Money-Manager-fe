@@ -6,6 +6,8 @@ import { TailSpin } from "react-loader-spinner";
 import Popup from "./Popup";
 import CreateTransaction from "./Modals/CreateTransaction";
 import Moment from "moment";
+import DropDown from "./DropDown";
+import { transactionType } from "../types/DataTypes";
 
 export default function Home() {
   const [user, setUser] = useState("");
@@ -14,21 +16,70 @@ export default function Home() {
   const [net, setNet] = useState(0);
   const [count, setCount] = useState(0);
   const [showDashboard, setShowDashboard] = useState(false);
+  const [filter, setFilter] = useState("All");
 
   Moment.locale("en");
 
   // make transaction
   const [newTransaction, setNewTransaction] = useState(false);
-
   const [isLoading, setIsLoading] = useState(true);
   const [loadingNet, setLoadingNet] = useState(true);
-
   const [transactions, setTransactions] = useState([]);
-
   const [netClass, setNetClass] = useState("");
 
+  // filter data based on the duration selected
+  const getFilteredData = (data: transactionType[]) => {
+    if (filter === "All") {
+      return data;
+    } else if (filter === "Today") {
+      return data.filter((transaction: transactionType) => {
+        const transactionDate = new Date(transaction.time);
+        return (
+          transactionDate.getDate() >= currentDate.getDate() - 1 &&
+          transactionDate.getMonth() === currentDate.getMonth() &&
+          transactionDate.getFullYear() === currentDate.getFullYear()
+        );
+      });
+    } else if (filter === "Last Week") {
+      return data.filter((transaction: transactionType) => {
+        const transactionDate = new Date(transaction.time);
+        return (
+          transactionDate.getDate() >= currentDate.getDate() - 7 &&
+          transactionDate.getMonth() === currentDate.getMonth() &&
+          transactionDate.getFullYear() === currentDate.getFullYear()
+        );
+      });
+    } else if (filter === "Last Month") {
+      return data.filter((transaction: transactionType) => {
+        const transactionDate = new Date(transaction.time);
+        return (
+          transactionDate.getMonth() >= currentDate.getMonth() - 1 &&
+          transactionDate.getFullYear() === currentDate.getFullYear()
+        );
+      });
+    } else if (filter === "Last 6 Months") {
+      return data.filter((transaction: transactionType) => {
+        const transactionDate = new Date(transaction.time);
+        return (
+          transactionDate.getMonth() >= currentDate.getMonth() - 6 &&
+          transactionDate.getFullYear() === currentDate.getFullYear()
+        );
+      });
+    } else if (filter === "Last Year") {
+      return data.filter((transaction: transactionType) => {
+        const transactionDate = new Date(transaction.time);
+        return transactionDate.getFullYear() >= currentDate.getFullYear() - 1;
+      });
+    } else {
+      return data;
+    }
+  };
+
+  // fetch data from API
   const fetchData = () => {
     getTransactions().then((data) => {
+      data = getFilteredData(data);
+
       data.length > 3
         ? setTransactions(data.reverse().slice(0, 3))
         : setTransactions(data.reverse());
@@ -57,12 +108,9 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // Get the user's data from the API
     me().then((currentUser) => {
       setUser(currentUser.username);
     });
-
-    // setUser("User");
 
     fetchData();
 
@@ -73,6 +121,8 @@ export default function Home() {
     setNewTransaction(false);
     fetchData();
   };
+
+  const currentDate = new Date();
 
   return (
     <html>
@@ -125,13 +175,23 @@ export default function Home() {
                 <p className="text-blue-500 font-bold text-5xl">{count}</p>
               )}
             </div>
-            <div className="lg:float-right flex items-center justify-center h-2/3 w-full lg:w-1/5">
-              <button
-                className="p-2 lg:p-4 bg-purple-500 hover:bg-purple-700 w-2/3 lg:w-full h-full rounded-lg font-bold text-white"
-                onClick={() => setNewTransaction(true)}
-              >
-                <span className="fa fa-plus"></span>&nbsp;Add new transaction
-              </button>
+            <div className="flex flex-col gap-4 lg:float-right w-1/4">
+              <div className="flex items-center justify-center h-1/3 w-full">
+                <button
+                  className="p-2 lg:p-3 bg-purple-500 hover:bg-purple-700 w-2/3 lg:w-full h-full rounded-lg font-bold text-white"
+                  onClick={() => setNewTransaction(true)}
+                >
+                  <span className="fa fa-plus"></span>&nbsp;Add new transaction
+                </button>
+              </div>
+              <div className="flex flex-col gap-2 w-full justify-center lg:justify-start items-center">
+                <div className="w-full">
+                  <p className="font-medium text-xl text-blue-700">Duration:</p>
+                </div>
+                <div className="w-full">
+                  <DropDown updateFilter={(e) => setFilter(e)} />
+                </div>
+              </div>
             </div>
           </div>
           <div>
@@ -177,7 +237,7 @@ export default function Home() {
                   />
                 ) : (
                   <p className={netClass}>
-                    {net >= 0 ? "+" : ""}
+                    {net > 0 ? "+" : ""}
                     {net}
                   </p>
                 )}
@@ -200,46 +260,47 @@ export default function Home() {
             )}
             <div className="flex flex-col gap-4 lg:pl-12 lg:pr-12 pt-6 h-full">
               {transactions.length ? (
-                transactions.map((transaction: any, index: number) =>
-                  transaction.spent ? (
-                    <div
-                      key={index}
-                      className="flex flex-col lg:flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
-                    >
-                      <div className="flex flex-row gap-2 w-full lg:w-1/2 items-center">
-                        <p className="text-2xl text-gray-500">{index + 1}.</p>
-                        <p className="text-semibold text-2xl text-red-500 justify-center lg:justify-start">
-                          <b>- {transaction.amount}</b>
-                          <br />
-                          &nbsp;{transaction.description}
-                        </p>
+                getFilteredData(transactions).map(
+                  (transaction: any, index: number) =>
+                    transaction.spent ? (
+                      <div
+                        key={index}
+                        className="flex flex-col lg:flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
+                      >
+                        <div className="flex flex-row gap-2 w-full lg:w-1/2 items-center">
+                          <p className="text-2xl text-gray-500">{index + 1}.</p>
+                          <p className="text-semibold text-2xl text-red-500 justify-center lg:justify-start">
+                            <b>- {transaction.amount}</b>
+                            <br />
+                            &nbsp;{transaction.description}
+                          </p>
+                        </div>
+                        <div className="w-full flex items-center justify-center lg:justify-start">
+                          <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
+                            {Moment(transaction.time).format("hh:mm, d MMM YY")}
+                          </p>
+                        </div>
                       </div>
-                      <div className="w-full flex items-center justify-center lg:justify-start">
-                        <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
-                          {Moment(transaction.time).format("hh:mm, d MMM YY")}
-                        </p>
+                    ) : (
+                      <div
+                        key={index}
+                        className="flex flex-col lg:flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
+                      >
+                        <div className="flex flex-row gap-2 lg:w-1/2">
+                          <p className="text-2xl text-gray-500">{index + 1}.</p>
+                          <p className="text-semibold text-2xl text-green-500">
+                            <b>+ {transaction.amount}</b>
+                            <br />
+                            &nbsp;{transaction.description}
+                          </p>
+                        </div>
+                        <div className="w-full flex items-center justify-center lg:justify-start">
+                          <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
+                            {Moment(transaction.time).format("hh:mm, d MMM YY")}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <div
-                      key={index}
-                      className="flex flex-col lg:flex-row gap-4 bg-white rounded-lg p-4 w-full shadow-lg"
-                    >
-                      <div className="flex flex-row gap-2 lg:w-1/2">
-                        <p className="text-2xl text-gray-500">{index + 1}.</p>
-                        <p className="text-semibold text-2xl text-green-500">
-                          <b>+ {transaction.amount}</b>
-                          <br />
-                          &nbsp;{transaction.description}
-                        </p>
-                      </div>
-                      <div className="w-full flex items-center justify-center lg:justify-start">
-                        <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
-                          {Moment(transaction.time).format("hh:mm, d MMM YY")}
-                        </p>
-                      </div>
-                    </div>
-                  )
+                    )
                 )
               ) : isLoading === false ? (
                 <div className="h-2/3 p-4 bg-white rounded-lg w-full shadow text-gray-500 text-xl font-semibold flex justify-center items-center">
