@@ -8,6 +8,7 @@ import CreateTransaction from "./Modals/CreateTransaction";
 import Moment from "moment";
 import DropDown from "./DropDown";
 import { transactionType } from "../types/DataTypes";
+import moment from "moment";
 
 export default function Home() {
   const [user, setUser] = useState("");
@@ -280,7 +281,9 @@ export default function Home() {
                         </div>
                         <div className="w-full flex items-center justify-center lg:justify-start">
                           <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
-                            {Moment(transaction.time).format("hh:mm, d MMM YY")}
+                            {moment(transaction.time).format(
+                              "hh:mm, DD MMM YY"
+                            )}
                           </p>
                         </div>
                       </div>
@@ -299,7 +302,9 @@ export default function Home() {
                         </div>
                         <div className="w-full flex items-center justify-center lg:justify-start">
                           <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
-                            {Moment(transaction.time).format("hh:mm, d MMM YY")}
+                            {Moment(transaction.time).format(
+                              "hh:mm, DD MMM YY"
+                            )}
                           </p>
                         </div>
                       </div>

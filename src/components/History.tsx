@@ -86,7 +86,7 @@ export default function History() {
                   </div>
                   <div className="w-full flex items-center justify-center lg:justify-start">
                     <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
-                      {Moment(transaction.time).format("hh:mm, d MMM YY")}
+                      {Moment(transaction.time).format("hh:mm, DD MMM YY")}
                     </p>
                   </div>
                 </div>
@@ -105,7 +105,7 @@ export default function History() {
                   </div>
                   <div className="w-full flex items-center justify-center lg:justify-start">
                     <p className="w-1/2 text-gray-500 text-xl flex items-center justify-center">
-                      {Moment(transaction.time).format("hh:mm, d MMM YY")}
+                      {Moment(transaction.time).format("hh:mm, DD MMM YY")}
                     </p>
                   </div>
                 </div>
