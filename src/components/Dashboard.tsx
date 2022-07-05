@@ -1,5 +1,6 @@
 import { Link } from "raviger";
 import { logout } from "../api/ApiUtils";
+import logo from "../logo.png";
 
 type tabList = { name: string; url: string; icon: string };
 
@@ -30,8 +31,9 @@ export default function Dashboard(props: {
       />
       <div className="relative flex flex-col h-screen p-6 bg-blue-700 text-white space-y-12 font-bold">
         <div className="inset-x-0 top-0 flex gap-2">
-          <Link href="/" className="text-3xl text-white">
-            <i className="fa fa-dollar"></i>&nbsp;Money Manager
+          <Link href="/" className="text-3xl text-white flex gap-2 w-full">
+            <img src={logo} alt="logo" className="w-2/5" />
+            <p>Money Manager</p>
           </Link>
           {props.showCross && (
             <button onClick={props.closeCB}>
