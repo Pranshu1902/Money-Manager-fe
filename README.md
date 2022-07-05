@@ -2,6 +2,8 @@
 
 API Link: https://money-manager-pranshu1902.herokuapp.com/api/swagger/
 
+API Repo: https://github.com/Pranshu1902/Money-Manager
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
