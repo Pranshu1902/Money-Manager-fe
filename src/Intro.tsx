@@ -95,6 +95,7 @@ export default function Intro() {
               people manage and get details on the money spent.
             </p>
             <a
+              rel="noreferrer"
               className="text-xl font-medium text-blue-500 hover:text-blue-700 hover:font-bold"
               href="https://github.com/Pranshu1902/Money-Manager-fe"
               target="_blank"

@@ -131,6 +131,7 @@ export default function Login() {
               people manage and get details on the money spent.
             </p>
             <a
+              rel="noreferrer"
               className="text-xl font-medium text-green-500 hover:text-green-700 hover:font-bold"
               href="https://github.com/Pranshu1902/Money-Manager-fe"
               target="_blank"
