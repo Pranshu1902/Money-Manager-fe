@@ -2,6 +2,7 @@ import { Link, navigate } from "raviger";
 import { useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { login } from "../api/ApiUtils";
+import logo from "../logo.png";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -40,80 +41,105 @@ export default function Login() {
   };
 
   return (
-    <div className="h-screen flex md:flex-row flex-col gap-4">
-      <div className="bg-gradient-to-l from-blue-400 to-blue-600 md:w-1/2 w-full md:p-4 flex flex-col gap-4 justify-center items-center">
-        <h1 className="font-bold text-white text-7xl flex justify-center items-center">
-          Money Manager
-        </h1>
-        <p className="text-white font-semibold text-xl">
-          Manage money efficiently and know where it is going
-        </p>
-      </div>
-      <div className="md:w-1/2 w-full md:p-4 flex flex-col items-center justify-center">
-        <p className="flex items-center justify-center text-5xl font-bold text-blue-500">
-          Login
-        </p>
+    <html>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      />
+      <div>
+        <div className="h-screen flex md:flex-row flex-col gap-4">
+          <div className="bg-gradient-to-l from-blue-400 to-blue-600 md:w-1/2 w-full md:p-4 flex flex-col gap-4 justify-center items-center">
+            <h1 className="font-bold text-white text-7xl flex justify-center items-center">
+              Money Manager
+            </h1>
+            <p className="text-white font-semibold text-xl">
+              Manage money efficiently and know where it is going
+            </p>
+          </div>
+          <div className="md:w-1/2 w-full md:p-4 flex flex-col items-center justify-center">
+            <p className="flex items-center justify-center text-5xl font-bold text-blue-500">
+              Login
+            </p>
 
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col items-center justify-center gap-6 pt-24"
-        >
-          <div>
-            <p className="font-bold text-gray-500">Username:</p>
-            <input
-              type="text"
-              className="p-1 border-2 border-blue-300 py-2 rounded-lg"
-              name=""
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              id=""
-            />
-          </div>
-          <div>
-            <p className="font-bold text-gray-500">Password:</p>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="p-1 border-2 border-blue-300 py-2 rounded-lg"
-              name=""
-              id="pass"
-            />
-          </div>
-          {invalidLogin && (
-            <p className="text-red-500">Invalid Login Credentials</p>
-          )}
-          <br />
-          {loading ? (
-            <TailSpin
-              color="#00BFFF"
-              height={50}
-              width={50}
-              ariaLabel="loading-indicator"
-            />
-          ) : username && password ? (
-            <button className="py-2 px-12 text-white font-bold mt-4 text-xl rounded-lg bg-blue-500 hover:bg-blue-800">
-              Login
-            </button>
-          ) : (
-            <button
-              className="py-2 px-12 text-white font-bold mt-4 text-xl rounded-lg bg-gray-500"
-              disabled
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col items-center justify-center gap-6 pt-24"
             >
-              Login
-            </button>
-          )}
-        </form>
-        <p className="text-xl text-gray-500 flex justify-center items-center pt-4">
-          New User?&nbsp;
-          <Link
-            href="/signup"
-            className="font-bold text-blue-500 hover:text-blue-700"
-          >
-            Sign up
-          </Link>
-        </p>
+              <div>
+                <p className="font-bold text-gray-500">Username:</p>
+                <input
+                  type="text"
+                  className="p-1 border-2 border-blue-300 py-2 rounded-lg"
+                  name=""
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  id=""
+                />
+              </div>
+              <div>
+                <p className="font-bold text-gray-500">Password:</p>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="p-1 border-2 border-blue-300 py-2 rounded-lg"
+                  name=""
+                  id="pass"
+                />
+              </div>
+              {invalidLogin && (
+                <p className="text-red-500">Invalid Login Credentials</p>
+              )}
+              <br />
+              {loading ? (
+                <TailSpin
+                  color="#00BFFF"
+                  height={50}
+                  width={50}
+                  ariaLabel="loading-indicator"
+                />
+              ) : username && password ? (
+                <button className="py-2 px-12 text-white font-bold mt-4 text-xl rounded-lg bg-blue-500 hover:bg-blue-800">
+                  Login
+                </button>
+              ) : (
+                <button
+                  className="py-2 px-12 text-white font-bold mt-4 text-xl rounded-lg bg-gray-500"
+                  disabled
+                >
+                  Login
+                </button>
+              )}
+            </form>
+            <p className="text-xl text-gray-500 flex justify-center items-center pt-4">
+              New User?&nbsp;
+              <Link
+                href="/signup"
+                className="font-bold text-blue-500 hover:text-blue-700"
+              >
+                Sign up
+              </Link>
+            </p>
+          </div>
+        </div>
+        {/* Footer */}
+        <div className="p-6 flex flex-row justify-center items-center gap-4 w-full">
+          <img src={logo} alt="logo" width={"7%"} height={"7%"} />
+          <div className="flex flex-col justify-center items-center gap-2 w-1/3">
+            <p>
+              Money Manager is an open source public utility designed to help
+              people manage and get details on the money spent.
+            </p>
+            <a
+              className="text-xl font-medium text-green-500 hover:text-green-700 hover:font-bold"
+              href="https://github.com/Pranshu1902/Money-Manager-fe"
+              target="_blank"
+            >
+              Contribute on GitHub
+            </a>
+          </div>
+        </div>
       </div>
-    </div>
+    </html>
   );
 }

@@ -1,6 +1,7 @@
 import homeLogo from "./home.png";
 import apiLogo from "./api.png";
 import { useEffect } from "react";
+import logo from "./logo.png";
 
 export default function Intro() {
   useEffect(() => {
@@ -83,6 +84,23 @@ export default function Intro() {
               src={apiLogo}
               alt="Money Manager"
             />
+          </div>
+        </div>
+        {/* Footer */}
+        <div className="p-6 flex flex-row justify-center items-center gap-4 w-full">
+          <img src={logo} alt="logo" width={"7%"} height={"7%"} />
+          <div className="flex flex-col justify-center items-center gap-2 w-1/3">
+            <p>
+              Money Manager is an open source public utility designed to help
+              people manage and get details on the money spent.
+            </p>
+            <a
+              className="text-xl font-medium text-blue-500 hover:text-blue-700 hover:font-bold"
+              href="https://github.com/Pranshu1902/Money-Manager-fe"
+              target="_blank"
+            >
+              Contribute on GitHub
+            </a>
           </div>
         </div>
       </div>
