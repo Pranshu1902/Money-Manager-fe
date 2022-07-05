@@ -53,10 +53,6 @@ export default function Charts() {
     document.title = "Chart | Money Manager";
   }, []);
 
-  // chart components
-
-  // https://github.com/RakanNimer/react-google-charts
-
   const options = {
     title: "Transactions History",
     curveType: "function",
@@ -94,12 +90,12 @@ export default function Charts() {
       {/* Main Div */}
       <div
         style={{ paddingLeft: "26%" }}
-        className="p-6 bg-gray-200 w-full h-screen"
+        className="p-6 bg-gray-200 w-full min-h-screen"
       >
         <div>
           <p className="text-5xl font-bold text-purple-500">Chart</p>
         </div>
-        <div className="flex justify-center items-center w-full h-full">
+        <div className="flex justify-center items-center w-full h-full pt-12">
           {loading ? (
             <Audio height="250" width="250" color="red" ariaLabel="loading" />
           ) : (

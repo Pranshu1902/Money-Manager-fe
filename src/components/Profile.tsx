@@ -77,7 +77,7 @@ export default function Profile() {
         </div>
         <div
           style={{ paddingLeft: "26%" }}
-          className="p-6 bg-gray-200 h-full w-full"
+          className="p-6 bg-gray-200 w-full min-h-screen"
         >
           <div>
             <p className="text-5xl font-bold text-purple-500">Profile</p>

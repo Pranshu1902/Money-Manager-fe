@@ -133,7 +133,7 @@ export default function Home() {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
       />
-      <div className="flex flex-col">
+      <div className="flex flex-col bg-gray-200 h-full w-full">
         {/* For Mobile View */}
         <div className="w-full md:h-1/2 h-full block md:hidden bg-gray-200">
           {showDashboard ? (
@@ -160,9 +160,10 @@ export default function Home() {
             showCross={false}
           />
         </div>
+        {/* Main Div */}
         <div
           style={{ paddingLeft: "26%" }}
-          className="p-6 w-screen flex flex-col gap-4 bg-gray-200 h-full"
+          className="p-6 w-screen flex flex-col gap-4 bg-gray-200 min-h-screen"
         >
           <div className="gap-24 items-center justify-center">
             <div className="lg:float-left bg-white rounded-lg w-full lg:w-1/4 p-6 shadow-lg mb-6">
@@ -178,7 +179,7 @@ export default function Home() {
                 <p className="text-blue-500 font-bold text-5xl">{count}</p>
               )}
             </div>
-            <div className="flex flex-col gap-4 lg:float-right w-1/4">
+            <div className="flex flex-col gap-4 lg:float-right w-full lg:w-1/4">
               <div className="flex items-center justify-center h-1/3 w-full">
                 <button
                   className="p-2 lg:p-3 bg-purple-500 hover:bg-purple-700 w-2/3 lg:w-full h-full rounded-lg font-bold text-white"

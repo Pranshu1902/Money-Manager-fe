@@ -52,7 +52,10 @@ export default function History() {
           showCross={false}
         />
       </div>
-      <div style={{ paddingLeft: "26%" }} className="p-6 bg-gray-200 h-full">
+      <div
+        style={{ paddingLeft: "26%" }}
+        className="p-6 bg-gray-200 min-h-screen"
+      >
         <div>
           <p className="text-4xl lg:text-5xl font-bold text-purple-500">
             History

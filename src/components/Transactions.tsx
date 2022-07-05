@@ -27,7 +27,7 @@ export default function Transactions() {
   return (
     <div className="flex flex-col">
       {/* For Mobile View */}
-      <div className="block md:hidden bg-gray-200">
+      <div className="block md:hidden bg-gray-200 min-h-screen">
         {showDashboard ? (
           <Dashboard
             user={user}
@@ -54,7 +54,7 @@ export default function Transactions() {
       </div>
       <div
         style={{ paddingLeft: "26%" }}
-        className="p-6 bg-gray-200 w-full h-full flex flex-col gap-4"
+        className="p-6 bg-gray-200 w-full min-h-screen flex flex-col gap-4"
       >
         <div>
           <p className="text-4xl lg:text-5xl font-bold text-purple-500">
