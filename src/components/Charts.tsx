@@ -176,7 +176,7 @@ export default function Charts() {
             dateWiseData[dateBarLength][0] ===
               String(Moment(element.time).format("MMM DD"))
           ) {
-            dateWiseData[dateBarLength][1] += Number(element.amount);
+            dateWiseData[dateBarLength][2] += Number(element.amount);
             dateWiseData[dateBarLength][3] += Number(element.amount);
           } else {
             dateWiseData.push([
