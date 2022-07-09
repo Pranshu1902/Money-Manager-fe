@@ -10,7 +10,8 @@
 
 Autodeployed at https://money-manager-pranshu1902.netlify.app/ for master branch.
 
-BE Link: https://money-manager-pranshu1902.herokuapp.com/api/swagger/
+BE Link: https://money-manager-pranshu1902.herokuapp.com/api/swagger/ 
+
 BE Repo: https://github.com/Pranshu1902/Money-Manager
 
 Enter your transactions and get detailed analysis on it along with charts.
