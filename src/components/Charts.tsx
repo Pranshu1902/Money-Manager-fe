@@ -5,7 +5,7 @@ import Dashboard from "./Dashboard";
 import { Chart } from "react-google-charts";
 import { transactionType } from "../types/DataTypes";
 import DropDown from "./DropDown";
-// import Moment from "moment";
+import Moment from "moment";
 
 export default function Charts() {
   const [user, setUser] = useState("");
@@ -13,6 +13,8 @@ export default function Charts() {
 
   let myData: any = [[]];
   const [data, setData] = useState(myData);
+  const [lineChartData, setLineChartData] = useState(myData);
+  const [barData, setBarData] = useState(myData);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("All");
 
@@ -78,33 +80,126 @@ export default function Charts() {
     getTransactions().then((data) => {
       data = getFilteredData(data);
 
+      // line chart data
+      let lineData: any[] = [];
+      let length = 0;
+      lineData.push(["Date", "Spent", "Received"]);
+
+      // bar chart data
       let history: any[] = [];
       let spent = 0,
         gained = 0;
-      data.forEach((element: transactionType) => {
-        element.spent
-          ? (spent += Number(element.amount))
-          : (gained += Number(element.amount));
 
-        // element.spent
-        //   ? history.push([
-        //       Moment(element.time).format("d MMM YY"),
-        //       element.amount,
-        //       0,
-        //       -element.amount,
-        //     ])
-        //   : history.push([
-        //       Moment(element.time).format("d MMM YY"),
-        //       0,
-        //       element.amount,
-        //       element.amount,gained
-        //     ]);
+      // date wise bar chart data
+      let dateWiseData: any[] = [];
+      let dateBarLength = 0;
+      dateWiseData.push(["Date", "Spent", "Received", "Net"]);
+
+      data.forEach((element: transactionType) => {
+        if (element.spent) {
+          // amount is spent
+
+          // filter data for bar chart
+          spent += Number(element.amount);
+
+          // filter data based on dates for Line Chart
+          if (
+            length > 0 &&
+            lineData[length][0] ===
+              String(Moment(element.time).format("MMM DD"))
+          ) {
+            lineData[length][1] += Number(element.amount);
+          } else {
+            lineData.push([
+              String(Moment(element.time).format("MMM DD")),
+              Number(element.amount),
+              0,
+            ]);
+            length += 1;
+          }
+
+          // filter data based on dates for Date wise Bar Chart
+
+          // barData.push([
+          //   String(Moment(element.time).format("MMM DD")),
+          //   Number(element.amount),
+          //   0,
+          //   -Number(element.amount),
+          // ]);
+          if (
+            dateBarLength > 0 &&
+            dateWiseData[dateBarLength][0] ===
+              String(Moment(element.time).format("MMM DD"))
+          ) {
+            dateWiseData[dateBarLength][1] += Number(element.amount);
+            dateWiseData[dateBarLength][3] -= Number(element.amount);
+          } else {
+            dateWiseData.push([
+              String(Moment(element.time).format("MMM DD")),
+              Number(element.amount),
+              0,
+              -Number(element.amount),
+            ]);
+            dateBarLength += 1;
+          }
+        } else {
+          // amount is received
+
+          // filter data for bar chart
+          gained += Number(element.amount);
+
+          // filter data based on dates for Line Chart
+          if (
+            length > 0 &&
+            lineData[length][0] ===
+              String(Moment(element.time).format("MMM DD"))
+          ) {
+            lineData[length][2] += Number(element.amount);
+          } else {
+            lineData.push([
+              String(Moment(element.time).format("MMM DD")),
+              0,
+              Number(element.amount),
+            ]);
+            length += 1;
+          }
+
+          // filter data based on dates for Date wise Bar Chart
+          // barData.push([
+          //   String(Moment(element.time).format("MMM DD")),
+          //   0,
+          //   Number(element.amount),
+          //   Number(element.amount),
+          // ]);
+          if (
+            dateBarLength > 0 &&
+            dateWiseData[dateBarLength][0] ===
+              String(Moment(element.time).format("MMM DD"))
+          ) {
+            dateWiseData[dateBarLength][1] += Number(element.amount);
+            dateWiseData[dateBarLength][3] += Number(element.amount);
+          } else {
+            dateWiseData.push([
+              String(Moment(element.time).format("MMM DD")),
+              0,
+              Number(element.amount),
+              Number(element.amount),
+            ]);
+            dateBarLength += 1;
+          }
+        }
       });
+
+      // data for bar chart
       let net = gained - spent;
-      history.push(["Today", spent, gained, net]);
+      history.push(["Total", spent, gained, net]);
       let allData = [["Date", "Spent", "Received", "Net"], ...history];
 
+      console.log(dateWiseData);
+
       setData(allData);
+      setLineChartData(lineData);
+      setBarData(dateWiseData);
       setLoading(false);
     });
 
@@ -116,8 +211,8 @@ export default function Charts() {
     curveType: "function",
     legend: { position: "bottom" },
     series: {
-      0: { color: "#00FF00" },
-      1: { color: "red" },
+      0: { color: "red" },
+      1: { color: "#00FF00" },
       2: { color: "blue" },
     },
   };
@@ -173,14 +268,36 @@ export default function Charts() {
           {loading ? (
             <Audio height="250" width="250" color="red" ariaLabel="loading" />
           ) : (
-            <div className="flex justify-center">
-              <Chart
-                chartType="Bar"
-                data={data}
-                width="100%"
-                height="400px"
-                options={options}
-              />
+            <div className="w-full">
+              <div className="flex justify-center">
+                <Chart
+                  chartType="Bar"
+                  data={data}
+                  width="70%"
+                  height="400px"
+                  options={options}
+                />
+              </div>
+
+              <div className="flex justify-center items-center w-full h-full pt-12">
+                <Chart
+                  chartType="LineChart"
+                  data={lineChartData}
+                  width="100%"
+                  height="400px"
+                  options={options}
+                />
+              </div>
+
+              <div className="flex justify-center items-center w-full h-full pt-12">
+                <Chart
+                  chartType="Bar"
+                  data={barData}
+                  width="100%"
+                  height="400px"
+                  options={options}
+                />
+              </div>
             </div>
           )}
         </div>
