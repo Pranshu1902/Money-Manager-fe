@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { getTransactions, me } from "../api/ApiUtils";
 import Dashboard from "./Dashboard";
 import Moment from "moment";
+import { transactionType } from "../types/DataTypes";
+import DropDown from "./DropDown";
 
 export default function History() {
   const [user, setUser] = useState("");
@@ -10,19 +12,75 @@ export default function History() {
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState([]);
   const [showDashboard, setShowDashboard] = useState(false);
+  const [filter, setFilter] = useState("All");
+
+  // filter data based on the duration selected
+  const getFilteredData = useCallback(
+    (data: transactionType[]) => {
+      const currentDate = new Date();
+
+      if (filter === "All") {
+        return data;
+      } else if (filter === "Today") {
+        return data.filter((transaction: transactionType) => {
+          const transactionDate = new Date(transaction.time);
+          return (
+            transactionDate.getDate() >= currentDate.getDate() - 1 &&
+            transactionDate.getMonth() === currentDate.getMonth() &&
+            transactionDate.getFullYear() === currentDate.getFullYear()
+          );
+        });
+      } else if (filter === "Last Week") {
+        return data.filter((transaction: transactionType) => {
+          const transactionDate = new Date(transaction.time);
+          return (
+            transactionDate.getDate() >= currentDate.getDate() - 7 &&
+            transactionDate.getMonth() === currentDate.getMonth() &&
+            transactionDate.getFullYear() === currentDate.getFullYear()
+          );
+        });
+      } else if (filter === "Last Month") {
+        return data.filter((transaction: transactionType) => {
+          const transactionDate = new Date(transaction.time);
+          return (
+            transactionDate.getMonth() >= currentDate.getMonth() - 1 &&
+            transactionDate.getFullYear() === currentDate.getFullYear()
+          );
+        });
+      } else if (filter === "Last 6 Months") {
+        return data.filter((transaction: transactionType) => {
+          const transactionDate = new Date(transaction.time);
+          return (
+            transactionDate.getMonth() >= currentDate.getMonth() - 6 &&
+            transactionDate.getFullYear() === currentDate.getFullYear()
+          );
+        });
+      } else if (filter === "Last Year") {
+        return data.filter((transaction: transactionType) => {
+          const transactionDate = new Date(transaction.time);
+          return transactionDate.getFullYear() >= currentDate.getFullYear() - 1;
+        });
+      } else {
+        return data;
+      }
+    },
+    [filter]
+  );
 
   useEffect(() => {
     me().then((currentUser) => {
       setUser(currentUser.username);
     });
 
+    setIsLoading(true);
     getTransactions().then((data) => {
+      data = getFilteredData(data);
       setTransactions(data.reverse());
       setIsLoading(false);
     });
 
     document.title = "History | Money Manager";
-  }, []);
+  }, [getFilteredData]);
 
   return (
     <div className="flex flex-col">
@@ -56,13 +114,23 @@ export default function History() {
         style={{ paddingLeft: "26%" }}
         className="p-6 bg-gray-200 min-h-screen"
       >
-        <div>
-          <p className="text-4xl lg:text-5xl font-bold text-purple-500">
-            History
-          </p>
+        <div className="flex flex-col lg:flex-row justify-between w-full">
+          <div>
+            <p className="text-4xl lg:text-5xl font-bold text-purple-500">
+              History
+            </p>
+          </div>
+          <div className="flex flex-col gap-2 w-full justify-center lg:justify-end items-end">
+            <div className="w-full lg:w-1/3">
+              <p className="font-medium text-xl text-blue-700">Duration:</p>
+            </div>
+            <div className="w-full lg:w-1/3">
+              <DropDown updateFilter={(e) => setFilter(e)} />
+            </div>
+          </div>
         </div>
         <div className="p-2 lg:p-12 flex flex-col gap-4 w-full h-full">
-          {isLoading && (
+          {isLoading ? (
             <div className="flex justify-center">
               <TailSpin
                 color="#00BFFF"
@@ -71,8 +139,7 @@ export default function History() {
                 ariaLabel="loading-indicator"
               />
             </div>
-          )}
-          {transactions.length ? (
+          ) : transactions.length ? (
             transactions.map((transaction: any, index: number) =>
               transaction.spent ? (
                 <div
