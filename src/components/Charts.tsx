@@ -195,7 +195,13 @@ export default function Charts() {
       history.push(["Total", spent, gained, net]);
       let allData = [["Date", "Spent", "Received", "Net"], ...history];
 
-      console.log(dateWiseData);
+      // handling edge case
+      if (length === 0) {
+        lineData.push([String("No Transactions Found"), 0, 0]);
+      }
+      if (dateBarLength === 0) {
+        dateWiseData.push([String("No Transactions Found"), 0, 0, 0]);
+      }
 
       setData(allData);
       setLineChartData(lineData);
