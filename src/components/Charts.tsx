@@ -271,7 +271,7 @@ export default function Charts() {
             <div className="w-full">
               <div className="flex justify-center">
                 <Chart
-                  chartType="Bar"
+                  chartType="ColumnChart"
                   data={data}
                   width="70%"
                   height="400px"
