@@ -4,7 +4,7 @@ import { getTransactions, me } from "../api/ApiUtils";
 import Dashboard from "./Dashboard";
 import Moment from "moment";
 import { transactionType } from "../types/DataTypes";
-import { TextField } from "@material-ui/core";
+// import { TextField } from "@material-ui/core";
 
 export default function Transactions() {
   const [user, setUser] = useState("");
@@ -72,17 +72,16 @@ export default function Transactions() {
               Transactions
             </p>
           </div>
-          <div className="pr-4">
-            <TextField
+          <div className="pr-4 flex gap-2 flex-col lg:flex-row">
+            <p className="flex items-center font-bold text-blue-600 text-xl">
+              Search 🔍
+            </p>
+            <input
               name="Search 🔍"
-              label={"Search 🔍"}
-              placeholder="Search Description 🔍"
-              fullWidth
-              margin="dense"
+              placeholder="Search 🔍"
               autoFocus={true}
               type={"text"}
-              id="first-name"
-              autoComplete="given-name"
+              className="rounded-lg p-2"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
