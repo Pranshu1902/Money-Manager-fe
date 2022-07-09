@@ -82,6 +82,8 @@ export default function Home() {
 
   // fetch data from API
   const fetchData = useCallback(() => {
+    setLoadingNet(true);
+    setIsLoading(true);
     getTransactions().then((data) => {
       data = getFilteredData(data);
 
