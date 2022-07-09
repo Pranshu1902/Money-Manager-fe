@@ -1,5 +1,7 @@
-<img src="https://img.shields.io/badge/test-passing-brightgreen" />
-<img src="https://img.shields.io/badge/site-deployed-brightgreen" />
+<div style="display: flex">
+  <img src="https://img.shields.io/badge/test-passing-brightgreen" />
+  <img src="https://img.shields.io/badge/site-deployed-brightgreen" />
+</div>
 
 # Money Manager Front-end
 
