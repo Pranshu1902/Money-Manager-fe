@@ -37,7 +37,7 @@ export default function Transactions() {
   return (
     <div className="flex flex-col">
       {/* For Mobile View */}
-      <div className="block md:hidden bg-gray-200 min-h-screen">
+      <div className="block md:hidden bg-gray-200">
         {showDashboard ? (
           <Dashboard
             user={user}
