@@ -119,13 +119,6 @@ export default function Charts() {
           }
 
           // filter data based on dates for Date wise Bar Chart
-
-          // barData.push([
-          //   String(Moment(element.time).format("MMM DD")),
-          //   Number(element.amount),
-          //   0,
-          //   -Number(element.amount),
-          // ]);
           if (
             dateBarLength > 0 &&
             dateWiseData[dateBarLength][0] ===
@@ -165,12 +158,6 @@ export default function Charts() {
           }
 
           // filter data based on dates for Date wise Bar Chart
-          // barData.push([
-          //   String(Moment(element.time).format("MMM DD")),
-          //   0,
-          //   Number(element.amount),
-          //   Number(element.amount),
-          // ]);
           if (
             dateBarLength > 0 &&
             dateWiseData[dateBarLength][0] ===
