@@ -3,6 +3,8 @@ import { TailSpin } from "react-loader-spinner";
 import { getTransactions, me } from "../api/ApiUtils";
 import Dashboard from "./Dashboard";
 import Moment from "moment";
+import { transactionType } from "../types/DataTypes";
+import { TextField } from "@material-ui/core";
 
 export default function Transactions() {
   const [user, setUser] = useState("");
@@ -10,10 +12,18 @@ export default function Transactions() {
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState([]);
   const [showDashboard, setShowDashboard] = useState(false);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
+    setIsLoading(true);
     getTransactions().then((data) => {
-      setTransactions(data.reverse());
+      setTransactions(
+        data
+          .filter((transaction: transactionType) =>
+            transaction.description.includes(search)
+          )
+          .reverse()
+      );
       setIsLoading(false);
     });
 
@@ -22,7 +32,7 @@ export default function Transactions() {
     });
 
     document.title = "Transactions | Money Manager";
-  }, []);
+  }, [search]);
 
   return (
     <div className="flex flex-col">
@@ -56,13 +66,30 @@ export default function Transactions() {
         style={{ paddingLeft: "26%" }}
         className="p-6 bg-gray-200 w-full min-h-screen flex flex-col gap-4"
       >
-        <div>
-          <p className="text-4xl lg:text-5xl font-bold text-purple-500">
-            Transactions
-          </p>
+        <div className="w-full flex flex-col lg:flex-row justify-between">
+          <div>
+            <p className="text-4xl lg:text-5xl font-bold text-purple-500">
+              Transactions
+            </p>
+          </div>
+          <div className="pr-4">
+            <TextField
+              name="Search 🔍"
+              label={"Search 🔍"}
+              placeholder="Search Description 🔍"
+              fullWidth
+              margin="dense"
+              autoFocus={true}
+              type={"text"}
+              id="first-name"
+              autoComplete="given-name"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
         </div>
         <div className="p-4 lg:p-12 flex flex-col gap-4 h-full">
-          {isLoading && (
+          {isLoading ? (
             <div className="flex justify-center">
               <TailSpin
                 color="#00BFFF"
@@ -71,8 +98,7 @@ export default function Transactions() {
                 ariaLabel="loading-indicator"
               />
             </div>
-          )}
-          {transactions.length ? (
+          ) : transactions.length ? (
             transactions.map((transaction: any, index: number) =>
               transaction.spent ? (
                 <div
