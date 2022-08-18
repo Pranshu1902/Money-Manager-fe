@@ -104,6 +104,18 @@ export default function Intro() {
             </a>
           </div>
         </div>
+        <div className="flex justify-center items-center">
+          Made with &nbsp;<i className="fa fa-heart text-red-500"></i>&nbsp;
+          by&nbsp;
+          <a
+            href="https://pranshu1902.netlify.app"
+            target={"_blank"}
+            rel={"noreferrer"}
+            className="hover:text-green-900 hover:font-bold transition duration-300 underline"
+          >
+            Pranshu
+          </a>
+        </div>
       </div>
     </html>
   );
