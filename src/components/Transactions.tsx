@@ -174,13 +174,22 @@ export default function Transactions() {
             <div></div>
           )}
         </div>
-          <Popup open={deleteTransaction} onClose={() => setDeleteTransaction(false)}>
-            <DeleteTransaction
-              closeCB={() => setDeleteTransaction(false)}
-              id={deleteId}
-              name={name}
-            />
-          </Popup>
+        <Popup
+          open={deleteTransaction}
+          onClose={() => {
+            setDeleteTransaction(false);
+            window.location.reload();
+          }}
+        >
+          <DeleteTransaction
+            closeCB={() => {
+              setDeleteTransaction(false);
+              window.location.reload();
+            }}
+            id={deleteId}
+            name={name}
+          />
+        </Popup>
       </div>
     </div>
   );

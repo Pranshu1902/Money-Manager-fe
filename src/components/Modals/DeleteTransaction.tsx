@@ -9,9 +9,6 @@ export default function DeleteTransaction(props: {
 }) {
   const [loading, setLoading] = useState(false);
 
-  console.log(props.id);
-  console.log(props.name);
-
   const handleSubmit = async (event: any) => {
     setLoading(true);
     event.preventDefault();
