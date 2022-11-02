@@ -95,6 +95,10 @@ export const postTransaction = async (
   return request("POST", data, "transactions/");
 };
 
+export const deleteTransaction = async (id: number) => {
+  return request("DELETE", {}, `transactions/${id}/`);
+};
+
 export const updateUser = async (username: string, password: string) => {
   const data = { username: username, password: password };
   return request("PUT", data, "user/");

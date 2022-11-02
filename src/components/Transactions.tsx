@@ -4,6 +4,8 @@ import { getTransactions, me } from "../api/ApiUtils";
 import Dashboard from "./Dashboard";
 import Moment from "moment";
 import { transactionType } from "../types/DataTypes";
+import DeleteTransaction from "./Modals/DeleteTransaction";
+import Popup from "./Popup";
 // import { TextField } from "@material-ui/core";
 
 export default function Transactions() {
@@ -13,6 +15,11 @@ export default function Transactions() {
   const [transactions, setTransactions] = useState([]);
   const [showDashboard, setShowDashboard] = useState(false);
   const [search, setSearch] = useState("");
+
+  // state variables for deleting transaction
+  const [deleteTransaction, setDeleteTransaction] = useState(false);
+  const [name, setName] = useState("");
+  const [deleteId, setDeleteId] = useState(0);
 
   useEffect(() => {
     setIsLoading(true);
@@ -117,6 +124,16 @@ export default function Transactions() {
                       {Moment(transaction.time).format("hh:mm, DD MMM YY")}
                     </p>
                   </div>
+                  <div className="flex items-center">
+                    <i
+                      className="fa fa-trash hover:text-red-500 hover:scale-125 transition duration-200"
+                      onClick={() => {
+                        setDeleteTransaction(true);
+                        setDeleteId(transaction.id);
+                        setName(transaction.description);
+                      }}
+                    ></i>
+                  </div>
                 </div>
               ) : (
                 <div
@@ -136,6 +153,16 @@ export default function Transactions() {
                       {Moment(transaction.time).format("hh:mm, DD MMM YY")}
                     </p>
                   </div>
+                  <div className="flex items-center">
+                    <i
+                      className="fa fa-trash hover:text-red-500 hover:scale-125 transition duration-200"
+                      onClick={() => {
+                        setDeleteTransaction(true);
+                        setDeleteId(transaction.id);
+                        setName(transaction.description);
+                      }}
+                    ></i>
+                  </div>
                 </div>
               )
             )
@@ -147,6 +174,13 @@ export default function Transactions() {
             <div></div>
           )}
         </div>
+          <Popup open={deleteTransaction} onClose={() => setDeleteTransaction(false)}>
+            <DeleteTransaction
+              closeCB={() => setDeleteTransaction(false)}
+              id={deleteId}
+              name={name}
+            />
+          </Popup>
       </div>
     </div>
   );
